@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Y5 BMK EJAAN APR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+body {
+  min-height: 100vh;
+  background: #f8fafc;
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 15px;
+  box-sizing: border-box;
+}
+.game-title {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-size: 28px;
+  color: #4F46E5;
+  text-align: center;
+  margin-bottom: 15px;
+}
+.group-select {
+  margin-bottom: 15px;
+  text-align: center;
+}
+.group-select select {
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 2px solid #CBD5E1;
+  cursor: pointer;
+  width: 80%;
+  max-width: 300px;
+  transition: all 0.3s;
+}
+.group-select select:focus {
+  border-color: #4F46E5;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+}
+.game-area {
+  background: white;
+  border-radius: 16px;
+  padding: 15px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+.chinese-meaning-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.chinese-meaning {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 10px;
+  color: #1e293b;
+  cursor: pointer;
+  transition: color 0.3s;
+  padding: 10px;
+  word-break: break-word;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+}
+.chinese-meaning:hover {
+  color: #4F46E5;
+}
+.letter-container {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+.letter-box {
+  width: 40px;
+  height: 40px;
+  background: #4F46E5;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 8px rgba(79, 70, 229, 0.2);
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.letter-box:active {
+  transform: scale(0.95);
+}
+.word-construction {
+  min-height: 50px;
+  border: 2px dashed #e2e8f0;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 15px;
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.progress-container {
+  margin-bottom: 15px;
+}
+.progress-bar {
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.progress {
+  height: 100%;
+  background: #4F46E5;
+  transition: width 0.3s;
+}
+.word-counter {
+  text-align: center;
+  color: #64748b;
+  margin-top: 6px;
+  font-size: 14px;
+}
+.lives {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+.heart {
+  color: #ef4444;
+  font-size: 20px;
+}
+.controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.btn {
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: none;
+  font-size: 14px;
+  min-width: 120px;
+}
+.btn-primary {
+  background: #4F46E5;
+  color: white;
+}
+.btn-primary:active {
+  background: #4338ca;
+}
+.stats {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+.stat-item {
+  text-align: center;
+  min-width: 80px;
+}
+.stat-label {
+  color: #64748b;
+  font-size: 14px;
+}
+.stat-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+}
+#pronounceBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: #4F46E5;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+#pronounceBtn:active {
+  transform: scale(0.95);
+}
+
+/* 动画效果 */
+@keyframes correct {
+  0% { transform: scale(1); background: #4F46E5; }
+  50% { transform: scale(1.1); background: #10B981; }
+  100% { transform: scale(1); background: #4F46E5; }
+}
+.correct {
+  animation: correct 0.5s ease;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-5px); }
+  40%, 80% { transform: translateX(5px); }
+}
+.shake {
+  animation: shake 0.5s ease;
+}
+
+/* 平板和桌面端适配 */
+@media (min-width: 768px) {
+  .game-title {
+    font-size: 36px;
+  }
+  .chinese-meaning {
+    font-size: 32px;
+  }
+  .letter-box {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+  .btn {
+    padding: 12px 20px;
+    font-size: 16px;
+  }
+}
+
+/* 移动端优化 */
+@media (max-width: 480px) {
+  .letter-box {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+  
+  .chinese-meaning {
+    font-size: 20px;
+  }
+  
+  .controls {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .btn {
+    width: 80%;
+    margin-bottom: 8px;
+  }
+}
+
+/* 模态框样式 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.modal-title {
+  color: #4F46E5;
+  margin-bottom: 1rem;
+}
+
+.high-score-badge {
+  background: #F59E0B;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1 class="game-title">Y5 BMK EJAAN APR</h1>
+  <div class="group-select">
+    <select id="groupSelect">
+      <option value="0">选择组别</option>
+      <option value="1">第一组 (8-14)</option>
+      <option value="2">第二组 (15-21)</option>
+      <option value="3">第三组 (22-28)</option>
+      <option value="4">第四组 (1-7)</option>
+    </select>
+  </div>
+  <div class="game-area">
+    <div class="stats">
+      <div class="stat-item">
+        <div class="stat-label">分数</div>
+        <div class="stat-value" id="score">0</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">时间</div>
+        <div class="stat-value" id="timer">00:00</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">最高分</div>
+        <div class="stat-value" id="highScore">0</div>
+      </div>
+    </div>
+    <div class="lives">
+      <i class="fas fa-heart heart"></i>
+      <i class="fas fa-heart heart"></i>
+      <i class="fas fa-heart heart"></i>
+    </div>
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div class="progress" style="width: 0%"></div>
+      </div>
+      <div class="word-counter">0/20</div>
+    </div>
+    <div class="chinese-meaning-container">
+      <div class="chinese-meaning" id="meaning"></div>
+      <button class="btn btn-primary" id="pronounceBtn"><i class="fas fa-volume-up"></i></button>
+    </div>
+    <div class="letter-container" id="letters"></div>
+    <div class="word-construction" id="construction"></div>
+    <div class="controls">
+      <button class="btn btn-primary" id="startBtn">开始游戏</button>
+      <button class="btn btn-primary" id="timerBtn">重置时间</button>
+    </div>
+  </div>
+</div>
+
+<audio id="bgMusic" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+<audio id="correctSound">
+  <source src="https://www.soundjay.com/buttons/sounds/button-09.mp3" type="audio/mpeg">
+</audio>
+<audio id="wrongSound">
+  <source src="https://www.soundjay.com/buttons/sounds/button-10.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const groups = [
+  [
+    { word: "Bebola", meaning: "鱼丸" },
+    { word: "Bebuli", meaning: "管形瓶、小药瓶" },
+    { word: "Deduit", meaning: "万年青（一种植物）" },
+    { word: "Gegelung", meaning: "卷状物" },
+    { word: "Kekisi", meaning: "铁花" },
+    { word: "Kekunci", meaning: "键盘" },
+    { word: "Kekabu", meaning: "棉花" },
+    { word: "Kekuda", meaning: "三角架" },
+    { word: "Lelabah", meaning: "蜘蛛" },
+    { word: "Comot-momot", meaning: "肮脏的" },
+    { word: "Compang-camping", meaning: "（衣服）破烂" },
+    { word: "Coreng-moreng", meaning: "满是污迹" },
+    { word: "Debak-debuk", meaning: "击打声或物件落的声音" },
+    { word: "Degap-degup", meaning: "（心脏的）跳动声" },
+    { word: "Bebayang", meaning: "影子" },
+    { word: "Jejari", meaning: "半径、轮轴" },
+    { word: "Peparu", meaning: "肺" },
+    { word: "Pepatung", meaning: "蜻蜓" },
+    { word: "Pepara", meaning: "棚架" },
+    { word: "Rerama", meaning: "蝴蝶" }
+  ],
+  [
+    { word: "Reriang", meaning: "蝉" },
+    { word: "Rerambut", meaning: "毛细管" },
+    { word: "Sesiku", meaning: "直角尺、曲尺" },
+    { word: "Sesungut", meaning: "触角、触须、触手" },
+    { word: "Sesumpit", meaning: "吹箭筒" },
+    { word: "Tetikus", meaning: "滑鼠" },
+    { word: "Tetambak", meaning: "堤、岸" },
+    { word: "Tetulang", meaning: "房屋的骨架" },
+    { word: "Tetupai", meaning: "楔子" },
+    { word: "Lelabi", meaning: "鳖" },
+    { word: "Lelabu", meaning: "南瓜、长颈水壶" },
+    { word: "Lelayang", meaning: "风筝" },
+    { word: "Lelumba", meaning: "海豚" },
+    { word: "Jejala", meaning: "网状物" },
+    { word: "Dentam-dentum", meaning: "爆竹声（连续的）" },
+    { word: "Deram-derum", meaning: "轰隆声" },
+    { word: "Desas-desus", meaning: "耳语声或谣言" },
+    { word: "Gegak-gempita", meaning: "吵闹的、吵杂的" },
+    { word: "Gelap-gelita", meaning: "漆黑" },
+    { word: "Gerak-geri", meaning: "行为举止" }
+  ],
+  [
+    { word: "Gilang-gemilang", meaning: "极亮的光、光辉的、灿烂的" },
+    { word: "Gilap-gemilap", meaning: "光辉洁白的、闪闪烁烁的" },
+    { word: "Gopoh-gapah", meaning: "匆匆忙忙" },
+    { word: "Gunung-ganang", meaning: "群山" },
+    { word: "Sebahagian", meaning: "一部分" },
+    { word: "Semua", meaning: "全部" },
+    { word: "Seluruh", meaning: "整个" },
+    { word: "Segala", meaning: "一切/所有" },
+    { word: "Segelintir", meaning: "一小部分" },
+    { word: "Segenap", meaning: "全部" },
+    { word: "Sebilangan", meaning: "一部分" },
+    { word: "Sesetengah", meaning: "一些" },
+    { word: "Sekalian", meaning: "全部" },
+    { word: "Para", meaning: "们（复数后缀）" },
+    { word: "ertahun-tahun", meaning: "几年" },
+    { word: "Setengah", meaning: "一半" },
+    { word: "Separuh", meaning: "一半" },
+    { word: "Berbagai-bagai", meaning: "各种各样" },
+    { word: "Pelbagai", meaning: "各种各样" },
+    { word: "Masing-masing", meaning: "各自" }
+  ],
+  [
+    { word: "Setiap", meaning: "每" },
+    { word: "Tiap-tiap", meaning: "每" },
+    { word: "Ketiga-tiga", meaning: "那三" },
+    { word: "Berpuluh-puluh", meaning: "几十" },
+    { word: "Beratus-ratus", meaning: "几百" },
+    { word: "Beribu-ribu", meaning: "几千" },
+    { word: "Berjam-jam", meaning: "几小时" },
+    { word: "Berhari-hari", meaning: "几天" },
+    { word: "Berminggu-minggu", meaning: "几周（口语：几个礼拜）" },
+    { word: "Berbulan-bulan", meaning: "几个月" },
+    { word: "tujuan", meaning: "目的" },
+    { word: "melahirkan", meaning: "产生" },
+    { word: "mewujudkan", meaning: "显示" },
+    { word: "mempunyai", meaning: "拥有" },
+    { word: "memulangkan", meaning: "还" },
+    { word: "memuji", meaning: "称赞" },
+    { word: "Mata pelajaran", meaning: "科目" },
+    { word: "meminta", meaning: "要求" },
+    { word: "menyampaikan", meaning: "传达" },
+    { word: "mengutip", meaning: "捡" }
+  ]
+];
+
+// 游戏变量
+let currentWord = null;
+let currentLetters = [];
+let selectedLetters = [];
+let score = 0;
+let lives = 3;
+let wordIndex = 0;
+let timer = null;
+let seconds = 0;
+let currentGroup = null;
+let highScores = JSON.parse(localStorage.getItem('bmkHighScores')) || {
+  group1: { score: 0, time: '00:00' },
+  group2: { score: 0, time: '00:00' },
+  group3: { score: 0, time: '00:00' },
+  group4: { score: 0, time: '00:00' }
+};
+
+// DOM元素
+const meaningElement = document.getElementById('meaning');
+const lettersContainer = document.getElementById('letters');
+const constructionArea = document.getElementById('construction');
+const scoreElement = document.getElementById('score');
+const timerElement = document.getElementById('timer');
+const highScoreElement = document.getElementById('highScore');
+const startBtn = document.getElementById('startBtn');
+const timerBtn = document.getElementById('timerBtn');
+const progressBar = document.querySelector('.progress');
+const wordCounter = document.querySelector('.word-counter');
+const hearts = document.querySelectorAll('.heart');
+const pronounceBtn = document.getElementById('pronounceBtn');
+const bgMusic = document.getElementById('bgMusic');
+const correctSound = document.getElementById('correctSound');
+const wrongSound = document.getElementById('wrongSound');
+const groupSelect = document.getElementById('groupSelect');
+
+// 设置背景音乐音量
+bgMusic.volume = 0.3;
+correctSound.volume = 0.5;
+wrongSound.volume = 0.5;
+
+// 初始化显示最高分
+updateHighScoreDisplay();
+
+// 组别选择
+groupSelect.addEventListener('change', function() {
+  const selectedValue = parseInt(this.value);
+  if (selectedValue >= 1 && selectedValue <= 4) {
+    currentGroup = groups[selectedValue - 1];
+    resetGameDisplay();
+    updateHighScoreDisplay(selectedValue);
+    this.style.borderColor = '#4F46E5';
+    this.style.boxShadow = '0 0 0 2px rgba(79, 70, 229, 0.2)';
+  } else {
+    currentGroup = null;
+    this.style.borderColor = '';
+    this.style.boxShadow = '';
+    highScoreElement.textContent = '0';
+  }
+});
+
+// 更新最高分显示
+function updateHighScoreDisplay(groupNum = null) {
+  if (groupNum) {
+    const highScore = highScores[`group${groupNum}`].score;
+    highScoreElement.textContent = highScore;
+  } else {
+    highScoreElement.textContent = '0';
+  }
+}
+
+// 重置游戏显示
+function resetGameDisplay() {
+  constructionArea.innerHTML = '';
+  lettersContainer.innerHTML = '';
+  meaningElement.textContent = '';
+  progressBar.style.width = '0%';
+  wordCounter.textContent = '0/20';
+  scoreElement.textContent = '0';
+  clearInterval(timer);
+  timerElement.textContent = '00:00';
+  lives = 3;
+  updateHearts();
+}
+
+// 更新生命显示
+function updateHearts() {
+  hearts.forEach((heart, index) => {
+    heart.style.visibility = index < lives ? 'visible' : 'hidden';
+  });
+}
+
+// 开始游戏
+startBtn.addEventListener('click', startGame);
+
+function startGame() {
+  if (!currentGroup) {
+    alert("请先选择一个组别！");
+    return;
+  }
+  wordIndex = 0;
+  score = 0;
+  lives = 3;
+  seconds = 0;
+  scoreElement.textContent = score;
+  updateHearts();
+  nextWord();
+  startTimer();
+  bgMusic.play().catch(e => console.log("自动播放被阻止:", e));
+}
+
+// 下一个单词
+function nextWord() {
+  if (wordIndex >= currentGroup.length || wordIndex >= 20) {
+    endGame();
+    return;
+  }
+  
+  clearInterval(timer);
+  startTimer();
+  
+  currentWord = currentGroup[wordIndex];
+  meaningElement.textContent = currentWord.meaning; // 只显示中文意思
+  meaningElement.style.cursor = 'pointer';
+  
+  currentLetters = currentWord.word.split('');
+  selectedLetters = [];
+  
+  // 打乱字母顺序
+  const shuffledLetters = shuffleArray([...currentLetters]);
+  
+  // 清空并重新填充字母容器
+  lettersContainer.innerHTML = '';
+  shuffledLetters.forEach(letter => {
+    const letterBox = document.createElement('div');
+    letterBox.className = 'letter-box';
+    letterBox.textContent = letter;
+    letterBox.addEventListener('click', () => selectLetter(letter, letterBox));
+    letterBox.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      selectLetter(letter, letterBox);
+    }, { passive: false });
+    lettersContainer.appendChild(letterBox);
+  });
+  
+  // 清空构建区域
+  constructionArea.innerHTML = '';
+  
+  // 更新进度
+  updateProgress();
+}
+
+// 打乱数组
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+// 选择字母
+function selectLetter(letter, letterBox) {
+  if (selectedLetters.length >= currentLetters.length) return;
+  
+  selectedLetters.push(letter);
+  
+  // 创建构建区域的字母显示
+  const constructedLetter = document.createElement('div');
+  constructedLetter.className = 'letter-box';
+  constructedLetter.textContent = letter;
+  constructedLetter.dataset.index = selectedLetters.length - 1;
+  constructedLetter.addEventListener('click', () => returnLetter(constructedLetter));
+  constructedLetter.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    returnLetter(constructedLetter);
+  }, { passive: false });
+  
+  constructionArea.appendChild(constructedLetter);
+  
+  // 禁用已选字母
+  letterBox.style.opacity = '0.5';
+  letterBox.style.pointerEvents = 'none';
+  
+  // 检查是否完成单词
+  checkWordCompletion();
+}
+
+// 返回字母
+function returnLetter(letterElement) {
+  const index = parseInt(letterElement.dataset.index);
+  if (isNaN(index)) return;
+  
+  // 从构建区域移除
+  constructionArea.removeChild(letterElement);
+  
+  // 从已选字母中移除
+  const returnedLetter = selectedLetters[index];
+  selectedLetters.splice(index, 1);
+  
+  // 重新启用字母框
+  const letterBoxes = lettersContainer.querySelectorAll('.letter-box');
+  letterBoxes.forEach(box => {
+    if (box.textContent === returnedLetter && box.style.opacity === '0.5') {
+      box.style.opacity = '1';
+      box.style.pointerEvents = 'auto';
+      return;
+    }
+  });
+  
+  // 更新构建区域的索引
+  const remainingLetters = constructionArea.querySelectorAll('.letter-box');
+  remainingLetters.forEach((box, i) => {
+    box.dataset.index = i;
+  });
+}
+
+// 检查单词完成
+function checkWordCompletion() {
+  if (selectedLetters.length === currentLetters.length) {
+    const constructedWord = selectedLetters.join('');
+    if (constructedWord === currentWord.word) {
+      // 正确
+      correctSound.play();
+      score += 10;
+      scoreElement.textContent = score;
+      constructionArea.classList.add('correct');
+      setTimeout(() => {
+        constructionArea.classList.remove('correct');
+        wordIndex++;
+        updateProgress();
+        setTimeout(nextWord, 500);
+      }, 500);
+    } else {
+      // 错误
+      wrongSound.play();
+      lives--;
+      updateHearts();
+      if (lives <= 0) {
+        endGame();
+      } else {
+        // 清空构建区域并重置字母
+        constructionArea.innerHTML = '';
+        selectedLetters = [];
+        const letterBoxes = lettersContainer.querySelectorAll('.letter-box');
+        letterBoxes.forEach(box => {
+          box.style.opacity = '1';
+          box.style.pointerEvents = 'auto';
+        });
+      }
+    }
+  }
+}
+
+// 更新进度
+function updateProgress() {
+  const progress = (wordIndex / 20) * 100;
+  progressBar.style.width = `${progress}%`;
+  wordCounter.textContent = `${wordIndex}/20`;
+}
+
+// 开始计时器
+function startTimer() {
+  seconds = 0;
+  updateTimerDisplay();
+  timer = setInterval(() => {
+    seconds++;
+    updateTimerDisplay();
+  }, 1000);
+}
+
+// 更新计时器显示
+function updateTimerDisplay() {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
+// 重置计时器
+timerBtn.addEventListener('click', () => {
+  clearInterval(timer);
+  seconds = 0;
+  updateTimerDisplay();
+  startTimer();
+});
+
+// 游戏结束
+function endGame() {
+  clearInterval(timer);
+  bgMusic.pause();
+  bgMusic.currentTime = 0;
+  
+  const currentGroupNum = parseInt(groupSelect.value);
+  let isNewHighScore = false;
+  
+  if (score > highScores[`group${currentGroupNum}`].score) {
+    highScores[`group${currentGroupNum}`] = {
+      score: score,
+      time: timerElement.textContent
+    };
+    localStorage.setItem('bmkHighScores', JSON.stringify(highScores));
+    isNewHighScore = true;
+    updateHighScoreDisplay(currentGroupNum);
+  }
+  
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  
+  modal.innerHTML = `
+    <div class="modal-content">
+      <h2 class="modal-title">游戏结束! ${isNewHighScore ? '<span class="high-score-badge">新纪录!</span>' : ''}</h2>
+      <p><strong>得分:</strong> ${score}</p>
+      <p><strong>用时:</strong> ${timerElement.textContent}</p>
+      <p><strong>正确率:</strong> ${Math.round((wordIndex/20)*100)}%</p>
+      <button id="restartBtn" class="btn btn-primary" style="margin-top: 1rem;">再玩一次</button>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  
+  document.getElementById('restartBtn').addEventListener('click', () => {
+    document.body.removeChild(modal);
+    resetGameDisplay();
+  });
+}
+
+// 语音朗读
+pronounceBtn.addEventListener('click', () => {
+  if (currentWord) {
+    speak(currentWord.meaning);
+  }
+});
+
+meaningElement.addEventListener('click', () => {
+  if (currentWord) {
+    speak(currentWord.meaning);
+  }
+});
+
+// 语音合成
+function speak(text) {
+  if ('speechSynthesis' in window) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'zh-CN';
+    utterance.rate = 0.9;
+    window.speechSynthesis.speak(utterance);
+  } else {
+    alert("您的浏览器不支持语音合成功能");
+  }
+}
+
+// 触摸事件优化
+document.addEventListener('touchstart', function() {}, { passive: true });
+</script>
+</body>
+</html>
